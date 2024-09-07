@@ -48,6 +48,7 @@ add_library(hla
     src/MIM/HLAtoken.h
     src/RTI/encoding/EncodingExceptions.cpp
     src/RTI/Exception.cpp
+    src/RTI/encoding/Endianness.h
 )
 
 set_target_properties(hla PROPERTIES

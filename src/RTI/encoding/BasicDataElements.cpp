@@ -1,4 +1,6 @@
 #include "RTI/encoding/BasicDataElements.h"
+
+#include "Endianness.h"
 #include "RTI/VariableLengthData.h"
 
 #define IMPLEMENT_ENCODING_HELPER_CLASS(EncodableDataType, SimpleDataType)\
@@ -89,8 +91,11 @@ namespace rti1516e {
         return data;
     }
 
-    void HLAboolean::encode(VariableLengthData&) const throw (EncoderException) {
-
+    void HLAboolean::encode(VariableLengthData& inData) const throw (EncoderException) {
+        char byteBuffer[getEncodedLength()];
+        unsigned int value = this->get() ? 1 : 0;
+        tt::memcpybe(byteBuffer, reinterpret_cast<char*>(&value), getEncodedLength());
+        inData.setData(byteBuffer, getEncodedLength());
     }
 
     Integer64 HLAboolean::hash() const
