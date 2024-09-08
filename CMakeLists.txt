@@ -21,7 +21,7 @@ add_executable(tests
 )
 set_target_properties(tests PROPERTIES
     LINKER_LANGUAGE CXX
-    CXX_STANDARD 98
+    CXX_STANDARD 11
 )
 target_link_libraries(tests GTest::gtest_main mim)
 gtest_discover_tests(tests)
