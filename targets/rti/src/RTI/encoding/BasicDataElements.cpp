@@ -3,19 +3,19 @@
 #include "Endianness.h"
 #include "RTI/VariableLengthData.h"
 
-const char ALIGN_OF_CHAR = 1;
-const char ALIGN_OF_SHORT = 2;
-const char ALIGN_OF_INT = 4;
-const char ALIGN_OF_LONG = 4;
-const char ALIGN_OF_FLOAT = 4;
-const char ALIGN_OF_DOUBLE = 8;
+#define ALIGN_OF_CHAR 1;
+#define ALIGN_OF_SHORT 2;
+#define ALIGN_OF_INT 4;
+#define ALIGN_OF_LONG 4;
+#define ALIGN_OF_FLOAT 4;
+#define ALIGN_OF_DOUBLE 8;
 
-const char SIZE_OF_CHAR = 1;
-const char SIZE_OF_SHORT = 2;
-const char SIZE_OF_INT = 4;
-const char SIZE_OF_LONG = 4;
-const char SIZE_OF_FLOAT = 4;
-const char SIZE_OF_DOUBLE = 8;
+#define SIZE_OF_CHAR 1;
+#define SIZE_OF_SHORT 2;
+#define SIZE_OF_INT 4;
+#define SIZE_OF_LONG 4;
+#define SIZE_OF_FLOAT 4;
+#define SIZE_OF_DOUBLE 8;
 
 /// Fixed Length applies to the SimpleDataType. During encoding and decoding we just
 /// pointer cast in here (which would fail hard for std::string e.g)
@@ -102,7 +102,7 @@ namespace rti1516e {
     IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAbyte, Octet )
     IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAfloat32BE, float )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat32LE, float )
-    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat64BE, double )
+    IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAfloat64BE, double )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat64LE, double )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger16LE, Integer16 )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger16BE, Integer16 )
@@ -211,6 +211,38 @@ namespace rti1516e {
             throw EncoderException( L"Cannot decode from buffer. Its too small to contain our data." );
         }
         this->set(*static_cast<const float*>(inData.data()));
+    }
+
+    /*************************************************************************
+     *  HLAfloat64BE
+     ************************************************************************/
+
+    Integer64 HLAfloat64BE::hash() const
+    {
+        Integer64 returnHash(0);
+        const double inData(get());
+        memcpy(&returnHash, &inData, getEncodedLength());
+        return returnHash;
+    }
+
+    unsigned int HLAfloat64BE::getOctetBoundary() const {
+        return ALIGN_OF_DOUBLE;
+    }
+
+    size_t HLAfloat64BE::getEncodedLength() const throw (EncoderException) {
+        return SIZE_OF_DOUBLE;
+    }
+
+    void HLAfloat64BE::encode(VariableLengthData& inData) const throw (EncoderException) {
+        const double value = this->get();
+        inData.setData(&value, getEncodedLength());
+    }
+
+    void HLAfloat64BE::decode(VariableLengthData const & inData) throw (EncoderException) {
+        if(inData.size() < getEncodedLength()) {
+            throw EncoderException( L"Cannot decode from buffer. Its too small to contain our data." );
+        }
+        this->set(*static_cast<const double*>(inData.data()));
     }
 
 }

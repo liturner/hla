@@ -111,4 +111,25 @@ TEST(HLAfloat32BE, EcodeDecode) {
 
 #pragma endregion
 
+#pragma region HLAfloat64BE
+
+TEST(HLAfloat64BE, Initialisation) {
+    ASSERT_EQ(1, rti1516e::HLAfloat32BE(1));
+    ASSERT_EQ(345.765f, rti1516e::HLAfloat32BE(345.765f));
+    ASSERT_EQ(35.765f, rti1516e::HLAfloat32BE(35.765));
+}
+
+TEST(HLAfloat64BE, EcodeDecode) {
+    constexpr double doubleOfTruth(42.1337);
+    const rti1516e::HLAfloat64BE origionalHlaDouble(doubleOfTruth);
+    const rti1516e::VariableLengthData endodedData(origionalHlaDouble.encode());
+    rti1516e::HLAfloat64BE decodedHlaDouble;
+    decodedHlaDouble.decode(endodedData);
+
+    ASSERT_EQ(doubleOfTruth, origionalHlaDouble);
+    ASSERT_EQ(doubleOfTruth, decodedHlaDouble);
+}
+
+#pragma endregion
+
 
