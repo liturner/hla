@@ -7,3 +7,6 @@ include(GoogleTest)
 find_package(GTest REQUIRED) # apt install libgtest-dev
 
 add_subdirectory(targets)
+
+# enable_testing needed on all levels to allow correct test discovery form project root
+enable_testing()

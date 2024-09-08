@@ -10,5 +10,9 @@ set_target_properties(tests PROPERTIES
 
 target_link_libraries(tests GTest::gtest_main mim)
 
+gtest_discover_tests(tests
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
+
+# enable_testing needed on all levels to allow correct test discovery form project root
 enable_testing()
-gtest_discover_tests(tests)

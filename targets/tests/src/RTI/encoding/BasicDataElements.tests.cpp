@@ -60,4 +60,32 @@ TEST(HLAboolean, FalseDecoding) {
 
 #pragma endregion
 
+#pragma region HLAbyte
+
+TEST(HLAbyte, Initialisation) {
+    ASSERT_EQ(1, rti1516e::HLAbyte(1));
+    ASSERT_EQ(2, rti1516e::HLAbyte(2));
+    ASSERT_EQ(5, rti1516e::HLAbyte(5));
+    ASSERT_EQ(42, rti1516e::HLAbyte(42));
+}
+
+TEST(HLAbyte, Assignment) {
+    rti1516e::HLAbyte token;
+    token = 4;
+    ASSERT_EQ(4, token);
+    token = 34;
+    ASSERT_EQ(34, token);
+}
+
+TEST(HLAbyte, Usage) {
+    rti1516e::HLAbyte token(42);
+    char aChar = token;
+    int anInt = token;
+    unsigned int aUint = token;
+    ASSERT_EQ(42, aChar);
+    ASSERT_EQ(42, anInt);
+    ASSERT_EQ(42, aUint);
+}
+
+#pragma endregion
 
