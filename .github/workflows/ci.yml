@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: apt
-        run: sudo apt install ninja-build
+        run: sudo apt install ninja-build libgtest-dev
       - name: cmake
         run: cmake --preset debug
       - name: cmake --build
