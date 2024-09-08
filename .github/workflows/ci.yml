@@ -1,4 +1,4 @@
-name: CI (Ubuntu Debug)
+name: CI (Ubuntu 20.04)
 
 on: push
 
@@ -22,7 +22,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: hla-latest-debug
+          name: hla-debug
           path: build/debug/HLA-*.tar.gz
   release:
     runs-on: ubuntu-20.04
@@ -43,5 +43,26 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: hla-latest-release
+          name: hla-release
           path: build/release/HLA-*.tar.gz
+  relWithDebInfo:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: apt
+        run: sudo apt install ninja-build libgtest-dev
+      - name: cmake
+        run: cmake --preset relWithDebInfo
+      - name: cmake --build
+        run: cmake --build --preset relWithDebInfo --target tests
+      - name: cpack
+        working-directory: build/relWithDebInfo
+        run: cpack
+      - name: ctest
+        working-directory: build/relWithDebInfo/targets/tests
+        run: ctest
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hla-relWithDebInfo
+          path: build/relWithDebInfo/HLA-*.tar.gz

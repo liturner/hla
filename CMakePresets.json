@@ -31,6 +31,14 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "relWithDebInfo",
+      "displayName": "RelWithDebInfo Configure",
+      "inherits": "common",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
     }
   ],
   "buildPresets": [
@@ -45,6 +53,12 @@
       "displayName": "Release Build",
       "configurePreset": "release",
       "configuration": "Release"
+    },
+    {
+      "name": "relWithDebInfo",
+      "displayName": "RelWithDebInfo Build",
+      "configurePreset": "relWithDebInfo",
+      "configuration": "RelWithDebInfo"
     }
   ]
 }
