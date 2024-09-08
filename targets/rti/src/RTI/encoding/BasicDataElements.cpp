@@ -100,7 +100,7 @@ namespace rti1516e {
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAASCIIstring, std::string )
     IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAboolean, bool )
     IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAbyte, Octet )
-    //IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAfloat32BE, float )
+    IMPLEMENT_ENCODING_HELPER_CLASS_FIXED_LENGTH( HLAfloat32BE, float )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat32LE, float )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat64BE, double )
     //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat64LE, double )
@@ -179,6 +179,38 @@ namespace rti1516e {
             throw EncoderException( L"Cannot decode from buffer. Its too small to contain our data." );
         }
         this->set(*static_cast<const char*>(inData.data()));
+    }
+
+    /*************************************************************************
+     *  HLAfloat32BE
+     ************************************************************************/
+
+    Integer64 HLAfloat32BE::hash() const
+    {
+        Integer64 returnHash(0);
+        const float inData(get());
+        memcpy(&returnHash, &inData, getEncodedLength());
+        return returnHash;
+    }
+
+    unsigned int HLAfloat32BE::getOctetBoundary() const {
+        return ALIGN_OF_FLOAT;
+    }
+
+    size_t HLAfloat32BE::getEncodedLength() const throw (EncoderException) {
+        return SIZE_OF_FLOAT;
+    }
+
+    void HLAfloat32BE::encode(VariableLengthData& inData) const throw (EncoderException) {
+        const float value = this->get();
+        inData.setData(&value, getEncodedLength());
+    }
+
+    void HLAfloat32BE::decode(VariableLengthData const & inData) throw (EncoderException) {
+        if(inData.size() < getEncodedLength()) {
+            throw EncoderException( L"Cannot decode from buffer. Its too small to contain our data." );
+        }
+        this->set(*static_cast<const float*>(inData.data()));
     }
 
 }

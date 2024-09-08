@@ -89,3 +89,26 @@ TEST(HLAbyte, Usage) {
 
 #pragma endregion
 
+
+#pragma region HLAfloat32BE
+
+TEST(HLAfloat32BE, Initialisation) {
+    ASSERT_EQ(1, rti1516e::HLAfloat32BE(1));
+    ASSERT_EQ(345.765f, rti1516e::HLAfloat32BE(345.765f));
+    ASSERT_EQ(35.765f, rti1516e::HLAfloat32BE(35.765));
+}
+
+TEST(HLAfloat32BE, EcodeDecode) {
+    constexpr float floatOfTruth(42.1337f);
+    const rti1516e::HLAfloat32BE origionalHlaFloat(floatOfTruth);
+    const rti1516e::VariableLengthData endodedData(origionalHlaFloat.encode());
+    rti1516e::HLAfloat32BE decodedHlaFloat;
+    decodedHlaFloat.decode(endodedData);
+
+    ASSERT_EQ(floatOfTruth, origionalHlaFloat);
+    ASSERT_EQ(floatOfTruth, decodedHlaFloat);
+}
+
+#pragma endregion
+
+
