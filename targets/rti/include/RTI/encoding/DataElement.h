@@ -30,7 +30,7 @@ namespace rti1516e
    public:
 
       // Destructor
-      virtual ~DataElement ();
+      virtual ~DataElement () = 0;
 
       // Return a new copy of the DataElement
       virtual std::auto_ptr<DataElement> clone () const = 0;

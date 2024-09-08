@@ -30,9 +30,7 @@ compliant set of C++ classes from a HLA FOM with little effort.
 The C++ API is something like C++98, throws lots of deprecation with anything higher than 98, and
 cannot compile under C++17. Initial investigation shows trivial changes needed (like remove "throws"
 or change some #MACROs to constexpr etc.), though these should not be undertaken until discussions 
-with IEEE, or unless we are ok to commit to maintaining "HLA 17" for example. Portico and other HLA
-implementations seem to have each made minor modifications to the IEEE provided API. Maybe a HLA 17
-would be a good idea for an actual project?
+with IEEE, or unless we are ok to commit to maintaining "HLA 17" for example.
 
 There are a few big chunks to consider:
 1. The whole federate thing etc. is the runtime connection and interaction
