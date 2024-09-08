@@ -39,6 +39,11 @@ There are a few big chunks to consider:
 2. There is a lot of boiler plate for encoding and decoding of the basic types
 3. The types defined in the FOMs need to be defined or generated.
 
+Encoding and Decoding logic is private to the implementation, unless otherwise shared and injected.
+This means that a federation with multiple implementations of the API will need to have an agreed
+encoding and decoding (e.g. how is a bool encoded? This could easily be a char instead of an int).
+Maybe the standard has more detail on this.
+
 ## Case Study HLAobjectRoot
 
 rti1516e::HLAfixedArray -> 

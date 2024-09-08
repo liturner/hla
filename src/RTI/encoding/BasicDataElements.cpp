@@ -93,7 +93,7 @@ namespace rti1516e {
 
     void HLAboolean::encode(VariableLengthData& inData) const throw (EncoderException) {
         char byteBuffer[getEncodedLength()];
-        unsigned int value = this->get() ? 1 : 0;
+        int value = this->get() ? 1 : 0;
         tt::memcpybe(byteBuffer, reinterpret_cast<char*>(&value), getEncodedLength());
         inData.setData(byteBuffer, getEncodedLength());
     }
@@ -116,7 +116,15 @@ namespace rti1516e {
     }
 
     void HLAboolean::decode(VariableLengthData const & inData) throw (EncoderException) {
-
+        if(inData.size() < getEncodedLength()) {
+            throw EncoderException( L"TODO" );
+        }
+        int decodedData = 0;
+        tt::memcpybe(reinterpret_cast<char*>(&decodedData), static_cast<const char*>(inData.data()), inData.size());
+        if(decodedData != 0 && decodedData != 1) {
+            throw EncoderException(L"Decoded HLAboolean was neither 1 nor 0. Our decoder is strict.");
+        }
+        this->set(decodedData);
     }
 
     size_t HLAboolean::decodeFrom(std::vector<Octet> const & buffer, size_t index) throw (EncoderException) {

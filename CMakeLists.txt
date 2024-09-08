@@ -44,11 +44,13 @@ add_library(hla
     src/RTI/encoding/DataElement.cpp
     src/RTI/encoding/HLAfixedArray.cpp
     src/RTI/VariableLengthData.cpp
-    src/MIM/HLAobjectRoot.h
-    src/MIM/HLAtoken.h
+    include/MIM/EnumeratedDataTypes.h
+    include/MIM/HLAobjectRoot.h
+    include/MIM/HLAtoken.h
     src/RTI/encoding/EncodingExceptions.cpp
     src/RTI/Exception.cpp
     src/RTI/encoding/Endianness.h
+
 )
 
 set_target_properties(hla PROPERTIES
