@@ -9,6 +9,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: apt
+        run: sudo apt install ninja-build
       - name: cmake
         run: cmake --preset debug
       - name: cmake --build
