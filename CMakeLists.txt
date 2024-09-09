@@ -4,7 +4,8 @@ project(HLA LANGUAGES CXX)
 include(CPack)
 include(GoogleTest)
 
-find_package(GTest REQUIRED) # apt install libgtest-dev
+find_package(GTest REQUIRED)  # libgtest-dev
+find_package(Eigen3 REQUIRED NO_MODULE) # libeigen3-dev
 
 add_subdirectory(targets)
 

@@ -6,6 +6,16 @@
 
 #include "MIM/EnumeratedDataTypes.h"
 
+#define IMPLEMENT_BASIC_TESTS(ENCODABLE_TYPE, RAW_TYPE, VALUE_1, VALUE_2)\
+TEST(ENCODABLE_TYPE, Initialise) {    \
+    ASSERT_EQ(VALUE_1, ENCODABLE_TYPE(VALUE_1));\
+    ASSERT_EQ(VALUE_2, ENCODABLE_TYPE(VALUE_2));\
+}\
+
+namespace rti1516e {
+    IMPLEMENT_BASIC_TESTS(HLAboolean, boolean, true, false)
+}
+
 #pragma region HLAboolean
 
 TEST(HLAboolean, InitialiseTrue) {
