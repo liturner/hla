@@ -11,9 +11,38 @@ TEST(ENCODABLE_TYPE, Initialise) {    \
     ASSERT_EQ(VALUE_1, ENCODABLE_TYPE(VALUE_1));\
     ASSERT_EQ(VALUE_2, ENCODABLE_TYPE(VALUE_2));\
 }\
+\
+TEST(ENCODABLE_TYPE, EncodeDecode) {\
+    constexpr RAW_TYPE valueOfTruth(VALUE_1);\
+    const ENCODABLE_TYPE origionalHlaValue(valueOfTruth);\
+    const VariableLengthData endodedData(origionalHlaValue.encode());\
+    ENCODABLE_TYPE decodedHlaValue;\
+    decodedHlaValue.decode(endodedData);\
+    ASSERT_EQ(valueOfTruth, origionalHlaValue);\
+    ASSERT_EQ(valueOfTruth, decodedHlaValue);\
+}\
+\
 
 namespace rti1516e {
-    IMPLEMENT_BASIC_TESTS(HLAboolean, boolean, true, false)
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAASCIIchar, char )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAASCIIstring, std::string )
+    IMPLEMENT_BASIC_TESTS(HLAboolean, bool, true, false)
+    IMPLEMENT_BASIC_TESTS(HLAbyte, Octet, 42, 24)
+    IMPLEMENT_BASIC_TESTS(HLAfloat32BE, float, 42.1337f, 1337.42f)
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat32LE, float )
+    IMPLEMENT_BASIC_TESTS(HLAfloat64BE, double, 42.1337, 1337.42)
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAfloat64LE, double )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger16LE, Integer16 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger16BE, Integer16 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger32BE, Integer32 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger32LE, Integer32 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger64BE, Integer64 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAinteger64LE, Integer64 )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAoctet, Octet )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAoctetPairBE, OctetPair )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAoctetPairLE, OctetPair )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAunicodeChar, wchar_t )
+    //IMPLEMENT_ENCODING_HELPER_CLASS( HLAunicodeString, std::wstring )
 }
 
 #pragma region HLAboolean
@@ -95,49 +124,6 @@ TEST(HLAbyte, Usage) {
     ASSERT_EQ(42, aChar);
     ASSERT_EQ(42, anInt);
     ASSERT_EQ(42, aUint);
-}
-
-#pragma endregion
-
-
-#pragma region HLAfloat32BE
-
-TEST(HLAfloat32BE, Initialisation) {
-    ASSERT_EQ(1, rti1516e::HLAfloat32BE(1));
-    ASSERT_EQ(345.765f, rti1516e::HLAfloat32BE(345.765f));
-    ASSERT_EQ(35.765f, rti1516e::HLAfloat32BE(35.765));
-}
-
-TEST(HLAfloat32BE, EcodeDecode) {
-    constexpr float floatOfTruth(42.1337f);
-    const rti1516e::HLAfloat32BE origionalHlaFloat(floatOfTruth);
-    const rti1516e::VariableLengthData endodedData(origionalHlaFloat.encode());
-    rti1516e::HLAfloat32BE decodedHlaFloat;
-    decodedHlaFloat.decode(endodedData);
-
-    ASSERT_EQ(floatOfTruth, origionalHlaFloat);
-    ASSERT_EQ(floatOfTruth, decodedHlaFloat);
-}
-
-#pragma endregion
-
-#pragma region HLAfloat64BE
-
-TEST(HLAfloat64BE, Initialisation) {
-    ASSERT_EQ(1, rti1516e::HLAfloat32BE(1));
-    ASSERT_EQ(345.765f, rti1516e::HLAfloat32BE(345.765f));
-    ASSERT_EQ(35.765f, rti1516e::HLAfloat32BE(35.765));
-}
-
-TEST(HLAfloat64BE, EcodeDecode) {
-    constexpr double doubleOfTruth(42.1337);
-    const rti1516e::HLAfloat64BE origionalHlaDouble(doubleOfTruth);
-    const rti1516e::VariableLengthData endodedData(origionalHlaDouble.encode());
-    rti1516e::HLAfloat64BE decodedHlaDouble;
-    decodedHlaDouble.decode(endodedData);
-
-    ASSERT_EQ(doubleOfTruth, origionalHlaDouble);
-    ASSERT_EQ(doubleOfTruth, decodedHlaDouble);
 }
 
 #pragma endregion
