@@ -1,4 +1,11 @@
-add_library(rti
+add_library(rti)
+
+target_sources(rti
+    PUBLIC
+    FILE_SET public_headers
+    TYPE HEADERS
+    BASE_DIRS include
+    FILES
     # HLA Interfaces. Added here as often improves IDE experience.
     include/RTI/encoding/BasicDataElements.h
     include/RTI/encoding/DataElement.h
@@ -30,7 +37,7 @@ add_library(rti
     include/RTI/SpecificConfig.h
     include/RTI/Typedefs.h
     include/RTI/VariableLengthData.h
-
+    PRIVATE
     # Implementation
     src/RTI/encoding/BasicDataElements.cpp
     src/RTI/encoding/DataElement.cpp
@@ -53,7 +60,5 @@ target_include_directories(rti
 
 install(TARGETS rti
     LIBRARY
-    PUBLIC_HEADER
+    FILE_SET public_headers
 )
-
-install(DIRECTORY include/ DESTINATION include)
